@@ -2,41 +2,42 @@
   <head>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 
-    <script src='https://use.typekit.net/abb5hmw.js'></script>
-    <script>
-      try{Typekit.load({ async: true });}catch(e){}
-    </script>
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans:400,700,900&display=swap" rel="stylesheet">
 
     <style>
-    html {
-      background-color: transparent;
-      font-family: calibri;
-      color: #fff;
-      font-size: 2em;
-      height: 100%;
-    }
+      html {
+        background-color: transparent;
+        font-family: 'Encode Sans', calibri, -apple-system, sans-serif;
+        color: #fff;
+        font-size: 2em;
+        height: 100%;
+        box-sizing: border-box;
+      }
 
-    body {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-    }
+      body {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        box-sizing: border-box;
+      }
 
-    .timer {
-      display: block;
-      font-weight: bold;
-      font-size: 90px;
-      text-shadow: 0px 0px 2em rgba(0, 0, 0, 1.0), 0px 0px 1em rgba(0, 0, 0, 0.8), 0px 0px 0.4em rgba(0, 0, 0, 0.4), 0px 0px 20px rgba(0, 0, 0, 0.9);
-    }
+      .timer {
+        box-sizing: border-box;
+        display: block;
+        font-weight: bold;
+        font-size: 90px;
+        width: 240px;
+        font-variant-numeric: tabular-nums;
+        text-shadow: -2px 2px 0.2em rgba(0, 0, 0, 0.7);
+      }
     </style>
   </head>
 
   <body>
     <div class="countdown">
-      <span class="timer updated-timer" data-started_at="1562970600">00:00:00</span>
-      <!-- <span class="timer" data-started_at="1562972400">Starting soon...</span> -->
+      <span class="timer updated-timer">00:00:00</span>
     </div>
   </body>
 
@@ -537,16 +538,12 @@
 
 
   <script>
+    const startTime = (moment(window.location.search.slice(1)) || moment()).unix();
+
     function increment_timers() {
       [].forEach.call(document.querySelectorAll(".updated-timer"), function(timer) {
-        if(timer.dataset.started_at) {
-          let now = moment().unix();
-          let start_time = parseInt(timer.dataset.started_at);
-          timer.innerText = moment.duration(now - start_time, 's').format("hh:mm:ss", { trim: false });
-        } else {
-          let previous_time = moment.duration(timer.innerText);
-          timer.innerText = previous_time.add(1, 's').format("hh:mm:ss", { trim: false });
-        }
+        let now = moment().unix();
+        timer.innerText = moment.duration(now - startTime, 's').format("hh:mm:ss", { trim: false });
       });
     }
 
